@@ -1,24 +1,13 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Roadmap - TO DO
 
-Things you may want to cover:
+* Create flot chart that outputs CMC data
 
-* Ruby version
+* Create flot chart that outputs Twitter data
 
-* System dependencies
+* Twitter stream API
 
-* Configuration
+* Show aggregated stats for top gainers per hour/day based on Twitter mentions
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Machiene learning based on fluctuations of Twitter mentions / Market cap / Time to moon after Twitter flood
