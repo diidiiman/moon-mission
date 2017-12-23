@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  price_usd: 9.99
+  price_btc: 9.99
+  market_cap_usd: 9.99
+  daily_volume: 9.99
+
+two:
+  price_usd: 9.99
+  price_btc: 9.99
+  market_cap_usd: 9.99
+  daily_volume: 9.99
