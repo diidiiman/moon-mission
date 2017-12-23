@@ -13,7 +13,7 @@
 #   rake "some:great:rake:task"
 # end
 #
-every :day, :at => '12 pm' do
+every 1.hour do
   rake "coinmarketcap:get_pairs"
 end
 

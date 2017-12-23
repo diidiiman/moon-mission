@@ -6,10 +6,13 @@ namespace :coinmarketcap do
     response = Net::HTTP.get(uri)
     data = JSON.parse(response)
     data.each do |entry|
-      # Check only once per day
-      checkup = Time.at(entry["last_updated"].to_i).to_date.beginning_of_day
-
       token = Token.where(ticker: entry["symbol"], name: entry["name"]).first_or_create
+
+      # Do not create stat entries more often than once per hour
+      time_check = token.cmc_stats.where("created_at > ?", Time.now - 1.hour).first
+      next if !time_check.nil?
+
+      checkup = Time.at(entry["last_updated"].to_i).to_time#.beginning_of_day
       stat = token.cmc_stats.where(created_at: checkup).first_or_create
       stat.update(
         rank: entry["rank"].to_i,
