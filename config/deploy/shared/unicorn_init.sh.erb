@@ -45,7 +45,7 @@ SET_PATH="cd $APP_ROOT && $RBENV rehash && $RBENV local $RBENV_RUBY_VERSION"
 UNICORN="bundle exec unicorn"
 # Execute the unicorn executable as a daemon, with the appropriate configuration
 # and in the appropriate environment.
-UNICORN_OPTS="-c /home/ubuntu/digipulse/shared/config/unicorn.rb -E $RAILS_ENV -D"
+UNICORN_OPTS="-c /home/ubuntu/mooner/shared/config/unicorn.rb -E $RAILS_ENV -D"
 
 # SET ADDITIONAL PATH FOR SU USER, TO GET BUNDLE EXEC
 SET_PATH_VARIABLE="PATH=\"/home/ubuntu/bin:/home/ubuntu/.local/bin:/home/ubuntu/.rbenv/shims:/home/ubuntu/.rbenv/bin:$PATH\""
