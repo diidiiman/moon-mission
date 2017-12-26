@@ -28,11 +28,17 @@ namespace :coinmarketcap do
   end
 
 
+  # Get only new stats for the ticker
   task get_old_stats: :environment do
     Token.all.each do |token|
-      ap "Getting stats for - #{token.name}"
+      ap "#{token.id}: Getting stats for - #{token.name}"
+      recent = token.cmc_stats.last
       begin
-        url = "https://graphs.coinmarketcap.com/currencies/#{token.name.downcase.gsub(' ', '-')}/0/#{Time.now.to_i.to_s}/"
+        if recent.present?
+          url = "https://graphs.coinmarketcap.com/currencies/#{token.name.downcase.gsub(' ', '-')}/#{recent.created_at.to_i}/#{Time.now.to_i.to_s}/"
+        else
+          url = "https://graphs.coinmarketcap.com/currencies/#{token.name.downcase.gsub(' ', '-')}/0/#{Time.now.to_i.to_s}/"
+        end
         uri = URI(url)
         response = Net::HTTP.get(uri)
         data = JSON.parse(response)
@@ -48,8 +54,6 @@ namespace :coinmarketcap do
       rescue
         ap "Could not get stats for - #{token.name}"
       end
-
-      sleep(3)
     end
   end
 end
