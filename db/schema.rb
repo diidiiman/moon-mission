@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171223203950) do
+ActiveRecord::Schema.define(version: 20171226120513) do
 
   create_table "cmc_stats", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "rank"
@@ -27,11 +27,26 @@ ActiveRecord::Schema.define(version: 20171223203950) do
     t.index ["token_id"], name: "index_cmc_stats_on_token_id"
   end
 
+  create_table "day_tweets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "tw_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "token_id"
+    t.index ["token_id"], name: "index_day_tweets_on_token_id"
+  end
+
   create_table "tokens", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "ticker"
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "tweet_stats", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "count", default: 0
+    t.datetime "date"
+    t.bigint "token_id"
+    t.index ["token_id"], name: "index_tweet_stats_on_token_id"
   end
 
   create_table "tweets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -44,5 +59,7 @@ ActiveRecord::Schema.define(version: 20171223203950) do
   end
 
   add_foreign_key "cmc_stats", "tokens"
+  add_foreign_key "day_tweets", "tokens"
+  add_foreign_key "tweet_stats", "tokens"
   add_foreign_key "tweets", "tokens"
 end

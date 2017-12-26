@@ -6,7 +6,8 @@ class LandingController < ApplicationController
 
   def pair
     @token = Token.where(:ticker => params[:token].upcase).first
-    @stats = @token.cmc_stats.order(created_at: :asc)
+    @stats = @token.cmc_stats.order(created_at: :desc).limit(30)
+    @tw_stats = @token.tweet_stats.order(date: :desc).limit(30)
   end
 
 

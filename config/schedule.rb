@@ -14,7 +14,11 @@
 # end
 #
 every 1.hour do
-  rake "coinmarketcap:get_pairs"
+  rake "coinmarketcap:get_old_stats"
+end
+
+every 1.hour do
+  rake "twitter:get_tweets"
 end
 
 # Learn more: http://github.com/javan/whenever
