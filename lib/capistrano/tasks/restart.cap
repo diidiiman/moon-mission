@@ -1,0 +1,22 @@
+namespace :deploy do
+  desc 'Commands for unicorn application'
+  task :restart do
+    on roles(:app), in: :sequence, wait: 5 do
+      sudo "/etc/init.d/unicorn_#{fetch(:application)} stop"
+      sleep 5
+      sudo "/etc/init.d/unicorn_#{fetch(:application)} start"
+    end
+  end
+
+  desc "Sets appropriate variable on the server, so it can be loaded by Rails config"
+  task :set_variables do
+    on roles(:app) do |server|
+      region = server.instance_variable_get('@properties').region
+
+      config_file = Tempfile.new(".region")
+      config_file.write region
+      config_file.close
+      upload! File.open(config_file), "#{release_path}/.region"
+    end
+  end
+end

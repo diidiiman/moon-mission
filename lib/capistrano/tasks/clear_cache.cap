@@ -1,0 +1,8 @@
+namespace :clear_cache do
+  desc 'Clearing generated cache'
+  task :remove_all do
+    on roles(:app) do
+      execute "rm -rf #{release_path}/public/deploy/*"
+   end
+  end
+end

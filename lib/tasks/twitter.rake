@@ -19,7 +19,7 @@ namespace :twitter do
       recent_tw = token.day_tweets.last
 
       # Skip checkup if the most recent tweet is less than 4h old
-      if recent_tw.present? and recent_tw.created_at > Time.now-4.hours
+      if recent_tw.present? and recent_tw.created_at > Time.now-8.hours
         ap "Skipping this token, since we have quite recent information"
         next
       end
@@ -46,11 +46,11 @@ namespace :twitter do
         end
 
         # Rate limit - 20 requests per minute max
-        sleep(15)
+        sleep(5)
       rescue => e
         ap "#{token.name} query was not completed - #{e.message}"
         e.inspect
-        sleep(15)
+        sleep(5)
       end
     end
   end

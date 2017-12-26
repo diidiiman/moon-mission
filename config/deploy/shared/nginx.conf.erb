@@ -1,0 +1,86 @@
+upstream unicorn {
+  server localhost:3000 fail_timeout=0;
+}
+
+proxy_cache_path /tmp/nginx levels=1:2 keys_zone=my_zone:10m inactive=60m;
+proxy_cache_key "$scheme$request_method$host$request_uri";
+
+log_format main "$request";
+
+map $http_user_agent $is_lb {
+  default "0";
+  "Load Balancer Agent"  "1";
+}
+
+
+# Main
+server {
+  listen 80 default_server;
+  root <%= fetch(:deploy_to) %>/current/public;
+
+  # Media: images, icons, video, audio, HTC
+  location ~* \.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|htc)$ {
+    expires 1M;
+    access_log off;
+    add_header Cache-Control "public";
+  }
+
+  # CSS and Javascript
+  location ~* \.(?:css|js)$ {
+    expires 1y;
+    access_log off;
+    add_header Cache-Control "public";
+  }
+
+  location = /favicon.ico {
+      log_not_found off;
+      access_log    off;
+  }
+
+  location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+      expires       max;
+      log_not_found off;
+  }
+
+  set $cache_path 'nocache';
+  if ($request_method ~* ^(GET|HEAD)$) {
+    set $cache_path $host;
+  }
+
+  location ~* \.(eot|otf|ttf|woff|woff2)$ {
+      add_header Access-Control-Allow-Origin *;
+      add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
+  }
+
+  location = / {
+    try_files /deploy/index.html @unicorn;
+  }
+
+  try_files
+    /$uri
+    /deploy/$uri
+    /deploy/$uri.html
+    /deploy/$uri.json
+    /deploy/$cache_path/$uri
+    /deploy/$cache_path/$uri.html
+    /deploy/$cache_path/$uri.json
+    @unicorn;
+
+  location @unicorn {
+    if ($is_lb) {
+      access_log off;
+    }
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto https;
+    proxy_set_header Host $http_host;
+    proxy_redirect off;
+    proxy_pass http://unicorn;
+  }
+
+  proxy_buffers 16 16k;
+  proxy_buffer_size 32k;
+
+  error_page 500 502 503 504 /500.html;
+  client_max_body_size 4G;
+  keepalive_timeout 10;
+}
