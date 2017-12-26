@@ -2,7 +2,7 @@
 lock "3.10.0"
 
 set :application, "mooner"
-set :repo_url, "git@bitbucket.org:digipulseco/rails-ico.git"
+set :repo_url, "git@github.com:digipulseio/moon-mission.git"
 
 set :deploy_to, '/home/ubuntu/mooner'
 set :bundle_gemfile,  "Gemfile"
