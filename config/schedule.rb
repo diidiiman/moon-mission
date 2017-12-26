@@ -1,3 +1,6 @@
+env :PATH, ENV['PATH']
+env :GEM_PATH, ENV['GEM_PATH']
+
 # Use this file to easily define all of your cron jobs.
 #
 # It's helpful, but not entirely necessary to understand cron before proceeding.
