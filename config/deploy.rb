@@ -72,7 +72,6 @@ namespace :deploy do
   after :deploy, 'clear_cache:remove_all'
 
   after :finishing, 'deploy:cleanup'
-  after :deploy, 'newrelic:notice_deployment'
 
   after 'deploy:publishing', 'deploy:restart'
 
