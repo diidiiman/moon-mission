@@ -1,3 +1,5 @@
+require 'net/http'
+
 namespace :coinmarketcap do
   desc "Load newest prices"
   task get_pairs: :environment do
