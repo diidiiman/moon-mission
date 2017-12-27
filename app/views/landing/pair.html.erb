@@ -8,8 +8,8 @@
         type: 'line',
         data: {
             labels: [
-              <% @stats.each do |stat| %>
-                '<%= stat.created_at.to_date %>',
+              <% @stats_dates.each do |date| %>
+                '<%= date %>',
               <% end %>
             ],
             datasets: [{
@@ -20,8 +20,8 @@
                 backgroundColor: window.chartColors.green,
                 borderColor: window.chartColors.green,
                 data: [
-                  <% @stats.each do |stat| %>
-                    '<%= stat.price_usd %>',
+                  <% @stats_usd.each do |stat| %>
+                    '<%= stat %>',
                   <% end %>
                 ],
                 fill: false,
@@ -35,8 +35,8 @@
                 backgroundColor: window.chartColors.yellow,
                 borderColor: window.chartColors.yellow,
                 data: [
-                  <% @stats.each do |stat| %>
-                    '<%= stat.price_btc %>',
+                  <% @stats_btc.each do |stat| %>
+                    '<%= stat %>',
                   <% end %>
                 ],
             },
@@ -50,7 +50,7 @@
                 borderColor: window.chartColors.blue,
                 data: [
                   <% @tw_stats.each do |stat| %>
-                    '<%= stat.count %>',
+                    '<%= stat %>',
                   <% end %>
                 ],
             }
