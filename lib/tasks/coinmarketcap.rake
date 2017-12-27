@@ -1,3 +1,5 @@
+require 'open-uri'
+require 'nokogiri'
 require 'net/http'
 
 namespace :coinmarketcap do
