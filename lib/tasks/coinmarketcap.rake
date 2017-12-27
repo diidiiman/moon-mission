@@ -54,6 +54,7 @@ namespace :coinmarketcap do
       rescue
         ap "Could not get stats for - #{token.name}"
       end
+      sleep(10)
     end
   end
 end
