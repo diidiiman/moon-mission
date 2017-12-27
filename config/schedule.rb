@@ -17,7 +17,8 @@ env :GEM_PATH, ENV['GEM_PATH']
 # end
 #
 every 1.hour do
-  rake "coinmarketcap:get_old_stats"
+  rake "coinmarketcap:get_pairs"
+  # rake "coinmarketcap:get_old_stats"
 end
 
 every 1.hour do
